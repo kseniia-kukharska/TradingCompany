@@ -2,12 +2,20 @@
 using TradingCompanyDto;
 using Microsoft.Data.SqlClient;
 
+
 namespace TradingCompanyDal.Concrete
 {
     public class ProductDal : IProductDal
     {
-        private readonly string _connectionString = "Data Source=localhost;Initial Catalog=Software;Integrated Security=True; TrustServerCertificate=True";
-        
+        private readonly string _connectionString;
+
+     
+        public ProductDal(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
+
         public Product Create(Product product)
         {
             using SqlConnection connection = new SqlConnection(_connectionString);

@@ -7,7 +7,12 @@ namespace TradingCompanyDal.Concrete
 
         public class CustomerDal : ICustomerDal
         {
-            private readonly string _connectionString = "Data Source=localhost;Initial Catalog=Software;Integrated Security=True;TrustServerCertificate=True";
+        private readonly string _connectionString;
+
+        public CustomerDal(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
 
         public Customer Create(Customer customer)
             {

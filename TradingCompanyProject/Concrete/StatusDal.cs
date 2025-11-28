@@ -7,7 +7,12 @@ namespace TradingCompanyDal.Concrete
   
         public class StatusDal : IStatusDal
         {
-            private readonly string _connectionString = "Data Source=localhost;Initial Catalog=Software;Integrated Security=True;TrustServerCertificate=True";
+            private readonly string _connectionString;
+
+            public StatusDal(string connectionString)
+            {
+                _connectionString = connectionString;
+            }
 
         public Status Create(Status status)
             {

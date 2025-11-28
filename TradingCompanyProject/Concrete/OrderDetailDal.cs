@@ -7,8 +7,12 @@ namespace TradingCompanyDal.Concrete
   
         public class OrderDetailDal : IOrderDetailDal
         {
-            private readonly string _connectionString = "Data Source=localhost;Initial Catalog=Software;Integrated Security=True;TrustServerCertificate=True";
+            private readonly string _connectionString;
 
+            public OrderDetailDal(string connectionString)
+            {
+                _connectionString = connectionString;
+            }
         public OrderDetail Create(OrderDetail orderDetail)
             {
                 using SqlConnection connection = new SqlConnection(_connectionString);

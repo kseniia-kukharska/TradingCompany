@@ -6,7 +6,12 @@ namespace TradingCompanyDal.Concrete
 {
         public class OrderDal : IOrderDal
         {
-            private readonly string _connectionString = "Data Source=localhost;Initial Catalog=Software;Integrated Security=True;TrustServerCertificate=True";
+        private readonly string _connectionString;
+
+        public OrderDal(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
 
         public Order Create(Order order)
             {
