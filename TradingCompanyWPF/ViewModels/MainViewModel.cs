@@ -46,31 +46,24 @@ namespace TradingCompany.WPF.ViewModels
 
         public string CurrentUserName => _currentUser?.Username ?? "Unknown";
 
-        // Головна "фішка" безпеки UI: повертає True, тільки якщо це Адмін
         public bool IsAdmin => _currentUser?.Role?.RoleName == "Admin";
-
-        // --- Команди (Commands) ---
 
         public ICommand RefreshCommand { get; }
 
-        // --- Методи ---
 
         private void LoadData()
         {
             try
             {
-                // Отримуємо список з бази
                 var list = _productDal.GetAll();
-                // Перетворюємо в ObservableCollection, щоб таблиця оновилась
                 Products = new ObservableCollection<Product>(list);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Помилка завантаження даних: {ex.Message}");
+                MessageBox.Show($"Data loading error: {ex.Message}");
             }
         }
 
-        // --- Реалізація INotifyPropertyChanged ---
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
