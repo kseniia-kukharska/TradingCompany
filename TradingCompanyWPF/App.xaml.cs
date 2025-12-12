@@ -9,14 +9,12 @@ using TradingCompanyDal.Concrete;
 using TradingCompanyDal.Interfaces;
 using TradingCompanyDto;
 
-
 namespace TradingCompany.WPF
 {
     public partial class App : Application
     {
         public static User CurrentUser { get; set; }
         public IServiceProvider ServiceProvider { get; private set; }
-
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -27,7 +25,6 @@ namespace TradingCompany.WPF
             ServiceProvider = serviceCollection.BuildServiceProvider();
 
             var loginWindow = ServiceProvider.GetRequiredService<LoginWindow>();
-
             var loginViewModel = loginWindow.DataContext as LoginViewModel;
 
             if (loginViewModel == null)
@@ -46,6 +43,10 @@ namespace TradingCompany.WPF
             if (loginWindow.ShowDialog() == true)
             {
                 var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+
+                // Shutdown application when main window closes
+                mainWindow.Closed += (s, args) => Shutdown();
+
                 mainWindow.Show();
             }
             else
@@ -53,23 +54,33 @@ namespace TradingCompany.WPF
                 Shutdown();
             }
         }
+
         private void ConfigureServices(IServiceCollection services)
         {
             var builder = new ConfigurationBuilder()
-             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory) 
+             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
              .AddJsonFile("config.json", optional: false, reloadOnChange: true);
 
             IConfiguration configuration = builder.Build();
             string connectionString = configuration.GetConnectionString("DefaultConnection");
 
+            // Register DALs
             services.AddTransient<IUserDal>(provider => new UserDal(connectionString));
-            services.AddTransient<IProductDal>(provider => new ProductDal(connectionString)); 
+            services.AddTransient<IProductDal>(provider => new ProductDal(connectionString));
 
+            // NEW: Add Order and Status DALs
+            services.AddTransient<IOrderDal>(provider => new OrderDal(connectionString));
+            services.AddTransient<IStatusDal>(provider => new StatusDal(connectionString));
+            services.AddTransient<ICustomerDal>(provider => new CustomerDal(connectionString));
+
+            // Business Logic
             services.AddTransient<IAuthManager, AuthManager>();
 
+            // ViewModels
             services.AddTransient<LoginViewModel>();
-            services.AddTransient<MainViewModel>(); 
+            services.AddTransient<MainViewModel>();
 
+            // Windows
             services.AddTransient<LoginWindow>();
             services.AddTransient<MainWindow>();
         }
