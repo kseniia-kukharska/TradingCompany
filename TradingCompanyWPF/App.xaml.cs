@@ -63,6 +63,7 @@ namespace TradingCompany.WPF
 
             IConfiguration configuration = builder.Build();
             string connectionString = configuration.GetConnectionString("DefaultConnection");
+            //CreateDefaultAdmin(connectionString);
 
             // Register DALs
             services.AddTransient<IUserDal>(provider => new UserDal(connectionString));
@@ -83,6 +84,27 @@ namespace TradingCompany.WPF
             // Windows
             services.AddTransient<LoginWindow>();
             services.AddTransient<MainWindow>();
+        }
+
+
+        // Приклад коду для C# (Seed Data)
+        private static void CreateDefaultAdmin(string connectionString)
+        {
+            var userDal = new UserDal(connectionString);
+            var authManager = new AuthManager(userDal); // Припускаємо, що у вас є AuthManager
+
+            // Перевіряємо, чи існує адмін
+            var existingUser = userDal.GetUserByUsername("seller");
+            if (existingUser == null)
+            {
+                // Реєстрація через AuthManager автоматично згенерує правильний Hash та Salt
+                bool result = authManager.Register("seller", "seller123", 4); // Логін: admin, Пароль: admin123
+
+                if (result)
+                {
+                    System.Console.WriteLine("Default Admin created successfully!");
+                }
+            }
         }
     }
 }

@@ -14,11 +14,10 @@ namespace TradingCompany.WPF.ViewModels
         private readonly IOrderDal _orderDal;
         private readonly IStatusDal _statusDal;
 
-        private List<Order> _allOrders; // Cache for filtering
         private ObservableCollection<Order> _orders;
         private ObservableCollection<Status> _statuses;
+        private User _currentUser;
 
-        // Filter fields
         private DateTime? _startDate;
         private DateTime? _endDate;
         private Status _selectedFilterStatus;
@@ -29,7 +28,6 @@ namespace TradingCompany.WPF.ViewModels
             _statusDal = statusDal;
             CurrentUser = App.CurrentUser;
 
-            // Commands
             RefreshCommand = new RelayCommand(o => LoadData());
             ApplyFilterCommand = new RelayCommand(o => ApplyFilter());
             ResetFilterCommand = new RelayCommand(o => ResetFilter());
@@ -39,9 +37,12 @@ namespace TradingCompany.WPF.ViewModels
             LoadData();
         }
 
-        // Properties
-        public User CurrentUser { get; set; }
-        public string CurrentUserName => CurrentUser?.Username ?? "Unknown";
+        public User CurrentUser
+        {
+            get => _currentUser;
+            set { _currentUser = value; OnPropertyChanged(); OnPropertyChanged(nameof(CurrentUserName)); }
+        }
+        public string CurrentUserName => _currentUser?.Username ?? "Unknown";
 
         public ObservableCollection<Order> Orders
         {
@@ -73,7 +74,6 @@ namespace TradingCompany.WPF.ViewModels
             set { _selectedFilterStatus = value; OnPropertyChanged(); }
         }
 
-        // Commands
         public ICommand RefreshCommand { get; }
         public ICommand ApplyFilterCommand { get; }
         public ICommand ResetFilterCommand { get; }
@@ -87,8 +87,8 @@ namespace TradingCompany.WPF.ViewModels
                 var statusList = _statusDal.GetAll();
                 Statuses = new ObservableCollection<Status>(statusList);
 
-                _allOrders = _orderDal.GetAll();
-                Orders = new ObservableCollection<Order>(_allOrders);
+                var orderList = _orderDal.GetAll();
+                Orders = new ObservableCollection<Order>(orderList);
             }
             catch (Exception ex)
             {
@@ -96,11 +96,27 @@ namespace TradingCompany.WPF.ViewModels
             }
         }
 
+        private void SaveChanges()
+        {
+            try
+            {
+                foreach (var order in Orders)
+                {
+                    _orderDal.Update(order);
+                }
+                MessageBox.Show("Orders saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error saving changes: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void ApplyFilter()
         {
-            if (_allOrders == null) return;
-
-            var filtered = _allOrders.AsEnumerable();
+            var allOrders = _orderDal.GetAll();
+            var filtered = allOrders.AsEnumerable();
 
             if (StartDate.HasValue)
                 filtered = filtered.Where(o => o.OrderDate >= StartDate.Value);
@@ -119,31 +135,18 @@ namespace TradingCompany.WPF.ViewModels
             StartDate = null;
             EndDate = null;
             SelectedFilterStatus = null;
-            Orders = new ObservableCollection<Order>(_allOrders);
-        }
-
-        private void SaveChanges()
-        {
-            try
-            {
-                foreach (var order in Orders)
-                {
-                    _orderDal.Update(order);
-                }
-                MessageBox.Show("Changes saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                LoadData();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error saving data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            LoadData();
         }
 
         private void Logout(object window)
         {
             if (window is Window currentWindow)
             {
-                currentWindow.Close();
+                var result = MessageBox.Show("Are you sure you want to logout?", "Logout", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    currentWindow.Close();
+                }
             }
         }
 
