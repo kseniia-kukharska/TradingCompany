@@ -1,37 +1,38 @@
 ﻿@model TradingCompanyWeb.Models.OrderViewModel
 @{
-    ViewData["Title"] = "Order Info";
+    ViewData["Title"] = "Order Details";
 }
 
 <div class="row justify-content-center">
-    <div class="col-md-8">
-        <div class="card shadow border-0">
-            <div class="card-header bg-info text-white py-3">
-                <h5 class="mb-0">Order Summary #@Model.OrderId</h5>
+    <div class="col-md-7">
+        <div class="glass-card p-5">
+            <div class="d-flex justify-content-between align-items-start mb-4">
+                <h3 class="fw-bold">Order Summary <span class="text-muted">#@Model.OrderId</span></h3>
+                <span class="badge bg-dark btn-pill py-2 px-4">@ViewBag.StatusName</span>
             </div>
-            <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-4 text-muted">Client Account ID:</div>
-                    <div class="col-8 fw-bold">@Model.CustomerId</div>
+            
+            <div class="row g-4 mt-2">
+                <div class="col-6">
+                    <p class="text-uppercase small fw-bold text-muted mb-1">Customer ID</p>
+                    <p class="h5">@Model.CustomerId</p>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-4 text-muted">Transaction Date:</div>
-                    <div class="col-8">@Model.OrderDate.ToLongDateString()</div>
+                <div class="col-6">
+                    <p class="text-uppercase small fw-bold text-muted mb-1">Order Date</p>
+                    <p class="h5">@Model.OrderDate.ToLongDateString()</p>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-4 text-muted">Total Paid:</div>
-                    <div class="col-8 text-success fw-bold">@Model.TotalAmount.ToString("C")</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-4 text-muted">Current Status:</div>
-                    <div class="col-8"><span class="badge bg-dark">@ViewBag.StatusName</span></div>
+                <div class="col-12">
+                    <p class="text-uppercase small fw-bold text-muted mb-1">Total Amount</p>
+                    <p class="display-6 fw-bold text-dark">@Model.TotalAmount.ToString("C")</p>
                 </div>
             </div>
-            <div class="card-footer bg-light d-flex">
-                <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
+
+            <hr class="my-5 opacity-25" />
+            
+            <div class="d-flex gap-2">
+                <a asp-action="Index" class="btn btn-light btn-pill border">Back to Dashboard</a>
                 @if (User.IsInRole("Seller"))
                 {
-                    <a asp-action="Edit" asp-route-id="@Model.OrderId" class="btn btn-warning ms-auto">Edit Order</a>
+                    <a asp-action="Edit" asp-route-id="@Model.OrderId" class="btn btn-dark btn-pill ms-auto">Edit Order</a>
                 }
             </div>
         </div>

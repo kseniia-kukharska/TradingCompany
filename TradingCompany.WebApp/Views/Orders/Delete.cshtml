@@ -1,26 +1,29 @@
 ﻿@model TradingCompanyWeb.Models.OrderViewModel
 @{
-    ViewData["Title"] = "Remove Order";
+    ViewData["Title"] = "Confirm Deletion";
 }
 
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card border-danger shadow">
-            <div class="card-header bg-danger text-white py-3">
-                <h5 class="mb-0">Confirm Deletion</h5>
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="glass-card p-5 text-center shadow-lg" style="border: 1px solid rgba(255,0,0,0.2)">
+            <div class="mb-4">
+                <div class="display-1 text-danger">⚠️</div>
+                <h3 class="fw-bold mt-3">Confirm Deletion</h3>
             </div>
-            <div class="card-body text-center py-4">
-                <p class="lead">Are you sure you want to permanently remove <strong>Order #@Model.OrderId</strong>?</p>
-                <h2 class="text-danger fw-bold">@Model.TotalAmount.ToString("C")</h2>
-                <p class="text-muted small">This operation cannot be undone.</p>
-            </div>
-            <div class="card-footer d-flex justify-content-between">
-                <a asp-action="Index" class="btn btn-light">No, Keep It</a>
-                <form asp-action="Delete" method="post">
-                    <input type="hidden" asp-for="OrderId" />
-                    <button type="submit" class="btn btn-danger px-4">Yes, Delete</button>
-                </form>
-            </div>
+            
+            <p class="text-muted mb-4">
+                Are you sure you want to permanently remove <strong>Order #@Model.OrderId</strong> from the system?
+            </p>
+            
+            <h4 class="fw-bold text-dark mb-5">Amount: @Model.TotalAmount.ToString("C")</h4>
+
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="OrderId" />
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-danger btn-pill py-3 fw-bold">YES, DELETE RECORD</button>
+                    <a asp-action="Index" class="btn btn-link text-decoration-none text-muted mt-2">No, cancel this action</a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
