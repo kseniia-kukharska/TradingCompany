@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using TradingCompany.BL.Interfaces;
+using TradingCompanyBL.Interfaces;
 using TradingCompany.WPF.Utilities;
 using TradingCompanyDto;
 

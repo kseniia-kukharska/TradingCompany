@@ -1,6 +1,6 @@
 ﻿using TradingCompanyDto;
 
-namespace TradingCompany.BL.Interfaces
+namespace TradingCompanyBL.Interfaces
 {
     public interface IAuthManager
     {   

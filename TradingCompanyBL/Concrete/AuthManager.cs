@@ -1,10 +1,10 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using TradingCompany.BL.Interfaces;
+using TradingCompanyBL.Interfaces;
 using TradingCompanyDal.Interfaces;
 using TradingCompanyDto;
 
-namespace TradingCompany.BL.Concrete
+namespace TradingCompanyBL.Concrete
 {
     public class AuthManager : IAuthManager
     {

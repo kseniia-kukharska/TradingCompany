@@ -1,14 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\TradingCompanyDto\TradingCompanyDto.csproj" />
-    <ProjectReference Include="..\TradingCompanyProject\TradingCompanyDal.csproj" />
-  </ItemGroup>
-
+	<ItemGroup>
+		<ProjectReference Include="..\TradingCompanyDto\TradingCompanyDto.csproj" />
+		<ProjectReference Include="..\TradingCompanyProject\TradingCompanyDal.csproj" />
+	</ItemGroup>
 </Project>

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
-using TradingCompany.BL.Concrete;
-using TradingCompany.BL.Interfaces;
+using TradingCompanyBL.Concrete;
+using TradingCompanyBL.Interfaces;
 using TradingCompany.WPF.ViewModels;
 using TradingCompany.WPF.Windows;
 using TradingCompanyDal.Concrete;
@@ -65,17 +65,14 @@ namespace TradingCompany.WPF
             string connectionString = configuration.GetConnectionString("DefaultConnection");
             //CreateDefaultAdmin(connectionString);
 
-            // Register DALs
-            services.AddTransient<IUserDal>(provider => new UserDal(connectionString));
-            services.AddTransient<IProductDal>(provider => new ProductDal(connectionString));
+            // DAL
+            services.AddTransient<IUserDal>(p => new UserDal(connectionString));
+            services.AddTransient<IOrderDal>(p => new OrderDal(connectionString));
+            services.AddTransient<IStatusDal>(p => new StatusDal(connectionString));
 
-            // NEW: Add Order and Status DALs
-            services.AddTransient<IOrderDal>(provider => new OrderDal(connectionString));
-            services.AddTransient<IStatusDal>(provider => new StatusDal(connectionString));
-            services.AddTransient<ICustomerDal>(provider => new CustomerDal(connectionString));
-
-            // Business Logic
+            // BLL
             services.AddTransient<IAuthManager, AuthManager>();
+            services.AddTransient<IOrderManager, OrderManager>(); // Додано менеджер
 
             // ViewModels
             services.AddTransient<LoginViewModel>();
