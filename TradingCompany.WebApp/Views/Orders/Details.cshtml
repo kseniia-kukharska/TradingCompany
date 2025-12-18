@@ -1,0 +1,39 @@
+﻿@model TradingCompanyWeb.Models.OrderViewModel
+@{
+    ViewData["Title"] = "Order Info";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow border-0">
+            <div class="card-header bg-info text-white py-3">
+                <h5 class="mb-0">Order Summary #@Model.OrderId</h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-4 text-muted">Client Account ID:</div>
+                    <div class="col-8 fw-bold">@Model.CustomerId</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-4 text-muted">Transaction Date:</div>
+                    <div class="col-8">@Model.OrderDate.ToLongDateString()</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-4 text-muted">Total Paid:</div>
+                    <div class="col-8 text-success fw-bold">@Model.TotalAmount.ToString("C")</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-4 text-muted">Current Status:</div>
+                    <div class="col-8"><span class="badge bg-dark">@ViewBag.StatusName</span></div>
+                </div>
+            </div>
+            <div class="card-footer bg-light d-flex">
+                <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
+                @if (User.IsInRole("Seller"))
+                {
+                    <a asp-action="Edit" asp-route-id="@Model.OrderId" class="btn btn-warning ms-auto">Edit Order</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

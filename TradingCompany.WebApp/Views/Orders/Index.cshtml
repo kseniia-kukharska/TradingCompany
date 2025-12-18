@@ -1,0 +1,54 @@
+﻿@model IEnumerable<TradingCompanyWeb.Models.OrderViewModel>
+@{
+    ViewData["Title"] = "Orders Console";
+}
+
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center py-3">
+        <h5 class="mb-0">Order Management Table</h5>
+        @if (User.IsInRole("Seller"))
+        {
+            <a asp-action="Create" class="btn btn-warning btn-sm fw-bold">+ NEW ORDER</a>
+        }
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-light text-muted">
+                <tr>
+                    <th class="ps-4">Reference</th>
+                    <th>Date</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th class="text-end pe-4">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="ps-4"><strong>#@item.OrderId</strong></td>
+                        <td>@item.OrderDate.ToString("dd/MM/yyyy")</td>
+                        <td class="text-success fw-bold">$@item.TotalAmount.ToString("N2")</td>
+                        <td>
+                            @{
+                                var statuses = (IEnumerable<TradingCompanyDto.Status>)ViewBag.Statuses;
+                                var current = statuses?.FirstOrDefault(s => s.StatusId == item.StatusId);
+                            }
+                            <span class="badge bg-secondary p-2">@current?.StatusName</span>
+                        </td>
+                        <td class="text-end pe-4">
+                            <div class="btn-group">
+                                <a asp-action="Details" asp-route-id="@item.OrderId" class="btn btn-sm btn-outline-info">Details</a>
+                                @if (User.IsInRole("Seller"))
+                                {
+                                    <a asp-action="Edit" asp-route-id="@item.OrderId" class="btn btn-sm btn-outline-primary">Edit</a>
+                                    <a asp-action="Delete" asp-route-id="@item.OrderId" class="btn btn-sm btn-outline-danger">Delete</a>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

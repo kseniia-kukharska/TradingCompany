@@ -42,8 +42,8 @@ namespace TradingCompanyTests
             // Act
             var result = _orderManager.GetFilteredOrders(null, null, null);
 
-            // Assert
-            Assert.AreEqual(3, result.Count());
+            // Assert: Використовуємо Assert.That замість Assert.AreEqual
+            Assert.That(result.Count(), Is.EqualTo(3), "Should return all orders when no filters are applied.");
         }
 
         [Test]
@@ -53,8 +53,8 @@ namespace TradingCompanyTests
             var result = _orderManager.GetFilteredOrders(null, null, 2);
 
             // Assert
-            Assert.AreEqual(1, result.Count());
-            Assert.AreEqual(2, result.First().OrderId);
+            Assert.That(result.Count(), Is.EqualTo(1), "Result count mismatch for status filter.");
+            Assert.That(result.First().OrderId, Is.EqualTo(2), "The filtered order has the wrong ID.");
         }
 
         [Test]
@@ -68,8 +68,8 @@ namespace TradingCompanyTests
             var result = _orderManager.GetFilteredOrders(start, end, null);
 
             // Assert
-            Assert.AreEqual(1, result.Count());
-            Assert.AreEqual(2, result.First().OrderId);
+            Assert.That(result.Count(), Is.EqualTo(1), "Result count mismatch for date range filter.");
+            Assert.That(result.First().OrderId, Is.EqualTo(2), "The filtered order date is outside the requested range.");
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace TradingCompanyTests
             var result = _orderManager.GetFilteredOrders(null, null, 0);
 
             // Assert
-            Assert.AreEqual(3, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(3), "Filter should be ignored when status ID is zero.");
         }
     }
 }

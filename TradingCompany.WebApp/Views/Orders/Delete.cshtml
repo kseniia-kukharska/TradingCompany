@@ -1,0 +1,26 @@
+﻿@model TradingCompanyWeb.Models.OrderViewModel
+@{
+    ViewData["Title"] = "Remove Order";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger shadow">
+            <div class="card-header bg-danger text-white py-3">
+                <h5 class="mb-0">Confirm Deletion</h5>
+            </div>
+            <div class="card-body text-center py-4">
+                <p class="lead">Are you sure you want to permanently remove <strong>Order #@Model.OrderId</strong>?</p>
+                <h2 class="text-danger fw-bold">@Model.TotalAmount.ToString("C")</h2>
+                <p class="text-muted small">This operation cannot be undone.</p>
+            </div>
+            <div class="card-footer d-flex justify-content-between">
+                <a asp-action="Index" class="btn btn-light">No, Keep It</a>
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" asp-for="OrderId" />
+                    <button type="submit" class="btn btn-danger px-4">Yes, Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

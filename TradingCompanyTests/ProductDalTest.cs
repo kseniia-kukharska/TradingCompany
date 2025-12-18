@@ -13,7 +13,8 @@ public class ProductDalTest
         [OneTimeSetUp]
         public void GlobalSetup()
         {
-            _dal = new ProductDal();
+            string connectionString = "Data Source=localhost;Initial Catalog=Software;Integrated Security=True; TrustServerCertificate=True";
+            _dal = new ProductDal(connectionString);
             _testProducts = new List<Product>();
         }
 

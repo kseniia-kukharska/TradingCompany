@@ -1,0 +1,67 @@
+﻿@model TradingCompanyWeb.Models.OrderViewModel
+@{
+    ViewData["Title"] = "Edit Order";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow border-0">
+                <div class="card-header bg-primary text-white py-3 text-center">
+                    <h5 class="mb-0">Modify Order Reference #@Model.OrderId</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Edit" method="post">
+                        @* БЕЗ ЦЬОГО ПОЛЯ EDIT НЕ ПРАЦЮВАТИМЕ *@
+                        <input type="hidden" asp-for="OrderId" />
+                        
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="CustomerId" class="form-label fw-bold">Customer ID</label>
+                            <input asp-for="CustomerId" class="form-control" placeholder="Enter client ID" />
+                            <span asp-validation-for="CustomerId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="OrderDate" class="form-label fw-bold">Date of Order</label>
+                            <input asp-for="OrderDate" class="form-control" type="date" />
+                            <span asp-validation-for="OrderDate" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="TotalAmount" class="form-label fw-bold">Total Bill Amount</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input asp-for="TotalAmount" class="form-control" />
+                            </div>
+                            <span asp-validation-for="TotalAmount" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="StatusId" class="form-label fw-bold">Order Status</label>
+                            <select asp-for="StatusId" class="form-select">
+                                @foreach (var status in (IEnumerable<TradingCompanyDto.Status>)ViewBag.Statuses)
+                                {
+                                    <option value="@status.StatusId">@status.StatusName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="StatusId" class="text-danger small"></span>
+                        </div>
+
+                        <hr />
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-success px-4">Update Database</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @* Це викликає помилку, якщо в Layout немає RenderSection *@
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

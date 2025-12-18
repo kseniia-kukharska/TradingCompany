@@ -1,0 +1,43 @@
+﻿@model TradingCompanyWeb.Models.OrderViewModel
+@{
+    ViewData["Title"] = "Create Order";
+}
+
+<h1>Create New Order</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="CustomerId" class="form-label"></label>
+                <input asp-for="CustomerId" class="form-control" />
+                <span asp-validation-for="CustomerId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="StatusId" class="form-label"></label>
+                <select asp-for="StatusId" class="form-select">
+                    @foreach (var status in (IEnumerable<TradingCompanyDto.Status>)ViewBag.Statuses)
+                    {
+                        <option value="@status.StatusId">@status.StatusName</option>
+                    }
+                </select>
+                <span asp-validation-for="StatusId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="TotalAmount" class="form-label"></label>
+                <input asp-for="TotalAmount" class="form-control" />
+                <span asp-validation-for="TotalAmount" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="OrderDate" class="form-label"></label>
+                <input asp-for="OrderDate" type="date" class="form-control" />
+                <span asp-validation-for="OrderDate" class="text-danger"></span>
+            </div>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">Save Order</button>
+                <a asp-action="Index" class="btn btn-secondary text-decoration-none">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
