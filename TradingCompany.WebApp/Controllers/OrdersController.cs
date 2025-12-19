@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TradingCompanyBL.Interfaces;
 using TradingCompanyDal.Interfaces;
 using TradingCompanyDto;
 using TradingCompanyWeb.Models;
@@ -77,12 +76,21 @@ namespace TradingCompanyWeb.Controllers
         public IActionResult Edit(int id, OrderViewModel model)
         {
             if (id != model.OrderId) return BadRequest();
+
             if (ModelState.IsValid)
             {
-                var order = _mapper.Map<Order>(model);
-                int userId = int.Parse(User.FindFirst("UserId")?.Value ?? "0");
-                _orderManager.UpdateOrderWithHistory(order, userId);
-                return RedirectToAction(nameof(Index));
+                try 
+                {
+                    var order = _mapper.Map<Order>(model);
+                    int userId = int.Parse(User.FindFirst("UserId")?.Value ?? "0");
+                    _orderManager.UpdateOrder(order, userId);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex) 
+                {
+                    _logger.LogError(ex, "Error updating order {OrderId}", id);
+                    ModelState.AddModelError("", "Database error occurred while saving.");
+                }
             }
             ViewBag.Statuses = _statusDal.GetAll();
             return View(model);

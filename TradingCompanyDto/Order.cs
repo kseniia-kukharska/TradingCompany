@@ -28,7 +28,7 @@ namespace TradingCompanyDto
             set { _orderDate = value; OnPropertyChanged(); }
         }
 
-        // IDataErrorInfo реалізація
+   
         public string Error => null;
 
         public string this[string columnName]
@@ -52,7 +52,7 @@ namespace TradingCompanyDto
             }
         }
 
-        // INotifyPropertyChanged реалізація
+     
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {

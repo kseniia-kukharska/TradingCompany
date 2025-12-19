@@ -3,5 +3,5 @@
 public interface IOrderManager
 {
     IEnumerable<Order> GetFilteredOrders(DateTime? start, DateTime? end, int? statusId);
-    void UpdateOrderWithHistory(Order order, int userId);
+    void UpdateOrder(Order order, int userId);
 }

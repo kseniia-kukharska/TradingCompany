@@ -3,8 +3,8 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using TradingCompanyBL.Interfaces;
 using TradingCompany.WPF.Utilities;
+using TradingCompanyBL.Interfaces;
 using TradingCompanyDto;
 
 namespace TradingCompany.WPF.ViewModels

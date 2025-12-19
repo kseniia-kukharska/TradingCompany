@@ -4,34 +4,37 @@
 }
 
 <div class="row justify-content-center mt-5">
-    <div class="col-md-4">
-        <div class="card shadow">
-            <div class="card-body">
-                <h2 class="text-center">System Login</h2>
-                <hr />
-                <form asp-action="Login" method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    
-                    @if (ViewBag.Error != null)
-                    {
-                        <div class="alert alert-danger">@ViewBag.Error</div>
-                    }
-
-                    <div class="mb-3">
-                        <label asp-for="Username" class="form-label"></label>
-                        <input asp-for="Username" class="form-control" />
-                        <span asp-validation-for="Username" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="Password" class="form-label"></label>
-                        <input asp-for="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary w-100">Sign In</button>
-                </form>
+    <div class="col-md-5">
+        <div class="glass-card p-5">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold text-dark">System Access</h2
             </div>
+            <hr class="mb-4 opacity-25" />
+
+            <form asp-action="Login" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3 fw-bold small"></div>
+
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger py-2 small">@ViewBag.Error</div>
+                }
+
+                <div class="mb-3">
+                    <label asp-for="Username" class="form-label text-dark fw-bold small">Username</label>
+                    <input asp-for="Username" class="form-control" placeholder="Enter username" />
+                    <span asp-validation-for="Username" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Password" class="form-label text-dark fw-bold small">Password</label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Enter password" />
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+
+                <div class="d-grid mt-5">
+                    <button type="submit" class="btn btn-dark btn-pill py-3 fw-bold shadow">SIGN IN</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

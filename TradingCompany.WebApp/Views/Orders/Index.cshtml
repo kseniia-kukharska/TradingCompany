@@ -28,7 +28,6 @@
                 {
                     <tr>
                         <td class="fw-bold">#@item.OrderId</td>
-                        @* Форматування дати англійською *@
                         <td>@item.OrderDate.ToString("dd MMM yyyy", new System.Globalization.CultureInfo("en-US"))</td>
                         <td class="fw-bold text-dark">$@item.TotalAmount.ToString("N2")</td>
                         <td>

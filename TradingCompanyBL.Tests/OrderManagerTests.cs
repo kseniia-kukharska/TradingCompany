@@ -1,14 +1,9 @@
-﻿using NUnit.Framework;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Moq;
 using TradingCompanyBL.Concrete;
-using TradingCompanyBL.Interfaces;
 using TradingCompanyDal.Interfaces;
 using TradingCompanyDto;
 
-namespace TradingCompanyTests
+namespace TradingCompanyBL.Tests
 {
     [TestFixture]
     public class OrderManagerTests
@@ -21,8 +16,6 @@ namespace TradingCompanyTests
         public void Setup()
         {
             _orderDalMock = new Mock<IOrderDal>();
-
-            // Створюємо тестові дані
             _sampleOrders = new List<Order>
             {
                 new Order { OrderId = 1, OrderDate = new DateTime(2025, 01, 01), StatusId = 1, TotalAmount = 100 },
@@ -30,7 +23,6 @@ namespace TradingCompanyTests
                 new Order { OrderId = 3, OrderDate = new DateTime(2025, 03, 01), StatusId = 1, TotalAmount = 300 }
             };
 
-            // Налаштовуємо імітацію DAL
             _orderDalMock.Setup(dal => dal.GetAll()).Returns(_sampleOrders);
 
             _orderManager = new OrderManager(_orderDalMock.Object);
@@ -42,14 +34,14 @@ namespace TradingCompanyTests
             // Act
             var result = _orderManager.GetFilteredOrders(null, null, null);
 
-            // Assert: Використовуємо Assert.That замість Assert.AreEqual
+            // Assert
             Assert.That(result.Count(), Is.EqualTo(3), "Should return all orders when no filters are applied.");
         }
 
         [Test]
         public void GetFilteredOrders_FilterByStatus_ReturnsOnlyCorrectStatus()
         {
-            // Act: шукаємо замовлення лише зі статусом 2
+            // Act
             var result = _orderManager.GetFilteredOrders(null, null, 2);
 
             // Assert
@@ -75,7 +67,7 @@ namespace TradingCompanyTests
         [Test]
         public void GetFilteredOrders_WhenStatusIsZero_ShouldIgnoreStatusFilter()
         {
-            // Act: імітуємо вибір "Всі статуси" (зазвичай ID = 0)
+            // Act
             var result = _orderManager.GetFilteredOrders(null, null, 0);
 
             // Assert

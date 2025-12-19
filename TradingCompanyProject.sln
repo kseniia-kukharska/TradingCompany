@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingCompanyDto", "Tradin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingCompanyConsole", "TradingCompanyConsole\TradingCompanyConsole.csproj", "{BD135133-3EA1-4881-8692-3E90769E0FD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingCompanyTests", "TradingCompanyTests\TradingCompanyTests.csproj", "{F9837CCD-24E4-42A9-BAE0-81398465182C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingCompanyDal.Tests", "TradingCompanyTests\TradingCompanyDal.Tests.csproj", "{F9837CCD-24E4-42A9-BAE0-81398465182C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingCompanyBL", "TradingCompanyBL\TradingCompanyBL.csproj", "{708804B7-C2A6-406C-8A73-4EADACA70820}"
 EndProject

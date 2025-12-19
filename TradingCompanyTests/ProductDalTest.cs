@@ -1,7 +1,7 @@
 ﻿using TradingCompanyDal.Concrete;
 using Product = TradingCompanyDto.Product;
 
-namespace TradingCompanyTests;
+namespace TradingCompanyDal.Tests;
 
 public class ProductDalTest
 {

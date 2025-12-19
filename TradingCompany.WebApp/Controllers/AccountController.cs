@@ -25,18 +25,15 @@ namespace TradingCompanyWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            // Перевірка валідації моделі (наприклад, чи не пусті поля)
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            // Використання вашого існуючого AuthManager з Business Logic
             var user = _authManager.Login(model.Username, model.Password);
 
             if (user != null)
             {
-                // Визначаємо роль: RoleId 4 відповідає Seller, інші - Viewer
                 string role = user.RoleId == 4 ? "Seller" : "Viewer";
 
                 var claims = new List<Claim>
@@ -52,15 +49,12 @@ namespace TradingCompanyWeb.Controllers
                 _logger.LogInformation("User {User} logged in as {Role}", model.Username, role);
                 return RedirectToAction("Index", "Orders");
             }
-
-            // Якщо вхід невдалий, додаємо помилку та повертаємо View з моделлю
             ViewBag.Error = "Invalid login or password";
             return View(model);
         }
 
         public IActionResult AccessDenied()
         {
-            // Логування спроб доступу без відповідних привілегій
             _logger.LogWarning("Access Denied for user {User} at {Time}", User.Identity?.Name, DateTime.Now);
             return View();
         }

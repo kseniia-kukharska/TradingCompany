@@ -1,12 +1,11 @@
 ﻿using Moq;
-using NUnit.Framework;
 using System.Security.Cryptography;
 using System.Text;
 using TradingCompanyBL.Concrete;
 using TradingCompanyDal.Interfaces;
 using TradingCompanyDto;
 
-namespace TradingCompanyTests
+namespace TradingCompanyBL.Tests
 {
     [TestFixture]
     public class AuthManagerTests
@@ -16,8 +15,7 @@ namespace TradingCompanyTests
 
         [SetUp]
         public void SetUp()
-        {
-            // Використовуємо Strict режим, щоб бути впевненими, що викликаються тільки очікувані методи
+        {         
             _userDalMock = new Mock<IUserDal>(MockBehavior.Strict);
             _sut = new AuthManager(_userDalMock.Object);
         }
@@ -28,7 +26,8 @@ namespace TradingCompanyTests
             _userDalMock.VerifyAll();
         }
 
-        #region Register Tests
+
+
 
         [Test]
         public void Register_ShouldReturnTrue_WhenUserDoesNotExist()
@@ -38,10 +37,9 @@ namespace TradingCompanyTests
             const string password = "password123";
             const int roleId = 1;
 
-            // Очікуємо перевірку, чи існує користувач (має повернути null)
+
             _userDalMock.Setup(d => d.GetUserByUsername(username)).Returns((User)null);
 
-            // Очікуємо виклик додавання користувача
             _userDalMock.Setup(d => d.AddUser(It.IsAny<User>()));
 
             // Act
@@ -68,13 +66,12 @@ namespace TradingCompanyTests
 
             // Assert
             Assert.That(result, Is.False);
-            // Перевіряємо, що AddUser ніколи не викликався
             _userDalMock.Verify(d => d.AddUser(It.IsAny<User>()), Times.Never);
         }
 
-        #endregion
 
-        #region Login Tests
+
+
 
         [Test]
         public void Login_ShouldReturnUser_WhenCredentialsAreValid()
@@ -84,7 +81,6 @@ namespace TradingCompanyTests
             const string password = "correct_password";
             const string salt = "random_salt_string";
 
-            // Генеруємо очікуваний хеш за логікою вашого AuthManager (password + salt)
             string expectedHash = CalculateExpectedHash(password, salt);
 
             var dbUser = new User
@@ -142,9 +138,9 @@ namespace TradingCompanyTests
             Assert.That(result, Is.Null);
         }
 
-        #endregion
 
-        // Допоміжний метод, що дублює приватну логіку AuthManager для тестів
+
+
         private string CalculateExpectedHash(string password, string salt)
         {
             using (var sha256 = SHA256.Create())
